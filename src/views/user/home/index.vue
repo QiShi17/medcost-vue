@@ -1,8 +1,6 @@
 <template>
-    <div>
-
-        hello
-        <router-view></router-view>
+    <div class="app-container">
+        首页
     </div>
 </template>
 

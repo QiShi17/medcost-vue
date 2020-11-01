@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Layout from "../views/user/layout/Layout";
+import Layout from "../views/admin/layout/Layout";
+import UserLayout from "../views/user/layout/UserLayout";
 
 
 
@@ -40,10 +41,12 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    component: () => import('@/views/index'),
+    component: () => import('@/views/user/home/index'),
     hidden: true
   }
 ]
+
+const adminPath='/admin'
 
 /**
  * asyncRoutes
@@ -51,10 +54,22 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
-    path: '/ums',
+    path: adminPath,
     component: Layout,
-    redirect: '/ums/user',
-    name: 'ums',
+    redirect: adminPath+'/home',
+    children: [{
+      path: 'home',
+      name: 'adminHome',
+      component: () => import('@/views/admin/home/index'),
+      meta: {title: '首页', icon: 'home'}
+    }]
+  },
+  {
+    path: adminPath+'/ums',
+    component: Layout,
+    redirect: adminPath+'/ums/user',
+    name: 'adminUms',
+    alwaysShow:true,
     meta: {
       title: '用户管理',
       icon: 'ums-admin',
@@ -64,7 +79,7 @@ export const asyncRoutes = [
       {
         path: 'user',
         component: () => import('@/views/admin/ums/user/index'),
-        name: 'user',
+        name: 'adminUser',
         meta: {
           title: '用户管理',
           icon: 'ums-admin'
@@ -74,29 +89,42 @@ export const asyncRoutes = [
   }
 ]
 
+const userPath='/user'
+
 export const userRoutes=[
   {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/index',
-    name: 'ums',
-    meta: {
-      title: '用户信息',
-      icon: 'ums-admin',
-      roles: ['ADMIN'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/user/home/index'),
-        name: 'index',
-        meta: {
-          title: '用户信息展示',
-          icon: 'ums-admin'
-        }
-      }
-    ]
-  }
+    path: userPath,
+    component: UserLayout,
+    redirect: userPath+'/home',
+    children: [{
+      path: 'home',
+      name: 'userHome',
+      component: () => import('@/views/user/home/index'),
+      meta: {title: '首页', icon: 'home'}
+    }]
+  },
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   redirect: '/user/index',
+  //   name: 'ums',
+  //   meta: {
+  //     title: '用户信息',
+  //     icon: 'ums-admin',
+  //     roles: ['ADMIN'] // you can set roles in root nav
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/user/home/index'),
+  //       name: 'index',
+  //       meta: {
+  //         title: '用户信息展示',
+  //         icon: 'ums-admin'
+  //       }
+  //     }
+  //   ]
+  // }
 ]
 
 export default new Router({

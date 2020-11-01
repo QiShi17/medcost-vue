@@ -24,11 +24,11 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'userRouters'
+      'routers'
     ]),
     routes() {
 
-      return this.userRouters
+      return this.routers
     },
     isCollapse() {
       return !this.sidebar.opened
