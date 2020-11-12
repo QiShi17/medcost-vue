@@ -5,7 +5,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 
-const whiteList = ['/login'] // 不重定向白名单
+const whiteList = ['/login','/qwerr'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   console.info("——————————to:"+to.path+"————from"+from.path+"———————————")
   NProgress.start()

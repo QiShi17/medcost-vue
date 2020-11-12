@@ -120,7 +120,7 @@
             <el-form :model="user"
                      ref="userForm"
                      label-width="150px" size="small">
-                <el-form-item label="类型:">
+                <el-form-item label="类型：">
                     <el-select v-model="user.type" placeholder="请选择" size="small" style="width: 80%">
                         <el-option
                                 v-for="item in userTypeList"

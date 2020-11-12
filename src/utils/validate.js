@@ -28,3 +28,9 @@ export function validatAlphabets(str) {
   return reg.test(str)
 }
 
+export function validateValidity (str){
+  const reg=/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/
+  console.info(reg.test(str))
+  return reg.test(str)
+};
+

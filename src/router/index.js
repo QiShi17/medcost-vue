@@ -84,7 +84,7 @@ export const asyncRoutes = [
           title: '用户管理',
           icon: 'ums-admin'
         }
-      }
+      },
     ]
   }
 ]
@@ -98,33 +98,74 @@ export const userRoutes=[
     redirect: userPath+'/home',
     children: [{
       path: 'home',
-      name: 'userHome',
+      name: 'esHome',
       component: () => import('@/views/user/home/index'),
       meta: {title: '首页', icon: 'home'}
     }]
   },
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   redirect: '/user/index',
-  //   name: 'ums',
-  //   meta: {
-  //     title: '用户信息',
-  //     icon: 'ums-admin',
-  //     roles: ['ADMIN'] // you can set roles in root nav
-  //   },
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/user/home/index'),
-  //       name: 'index',
-  //       meta: {
-  //         title: '用户信息展示',
-  //         icon: 'ums-admin'
-  //       }
-  //     }
-  //   ]
-  // }
+  {
+    path: userPath+'/apply',
+    component: UserLayout,
+    redirect: userPath+'/apply/stu',
+    name: 'apply',
+    meta: {
+      title: '报销申请',
+      icon: 'ums-admin',
+      roles: ['USER'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'stu',
+        component: () => import('@/views/user/apply/esStu'),
+        name: 'stu',
+        meta: {
+          title: '学生报销',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'onduty',
+        component: () => import('@/views/user/apply/esOnduty'),
+        name: 'onduty',
+        meta: {
+          title: '在职员工报销',
+          icon: 'ums-admin'
+        }
+      }
+    ]
+  },
+  {
+    path: userPath+'/submit',
+    component: UserLayout,
+    redirect: userPath+'/submit/draft_account',
+    name: 'submit',
+    meta: {
+      title: '我提交的单据',
+      icon: 'ums-admin',
+      roles: ['USER'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'draft_account',
+        component: () => import('@/views/user/submit/esDraftAccount'),
+        name: 'draftAccount',
+        meta: {
+          title: '草稿',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'in_review_account',
+        component: () => import('@/views/user/submit/esInReviewAccount'),
+        name: 'esInReviewAccount',
+        meta: {
+          title: '待审核',
+          icon: 'ums-admin'
+        }
+      },
+
+    ]
+  }
 ]
 
 export default new Router({
