@@ -1,6 +1,5 @@
 <template>
     <div class="app-container">
-        <account-list>
             <el-card class="filter-container" shadow="never">
                 <div>
                     <i class="el-icon-search"></i>
@@ -22,7 +21,7 @@
                 <div style="margin-top: 15px">
                     <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
                         <el-form-item label="输入搜索：">
-                            <el-input v-model="listQuery.keyword" class="input-width" placeholder="帐号/姓名" clearable></el-input>
+                            <el-input v-model="listQuery.keyword" class="input-width" placeholder="单号" clearable></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -30,7 +29,6 @@
             <el-card class="operate-container" shadow="never">
                 <i class="el-icon-tickets"></i>
                 <span>数据列表</span>
-                <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
             </el-card>
             <div class="table-container">
                 <el-table ref="userTable"
@@ -114,17 +112,55 @@
                         :total="total">
                 </el-pagination>
             </div>
-        </account-list>
     </div>
 
 </template>
 
 <script>
     import accountList from "../../../components/accountList";
+    import {fetchAccountListWithUserInfo} from '@/api/expenseAccount';
+
+    const defaultListQuery = {
+        pageNum: 1,
+        pageSize: 10,
+        status:null,
+        keyword: null
+    };
+
     export default {
         name: "esDraftAccount",
         components:{accountList},
-        list:null,
+        data(){
+            return{
+                listQuery: Object.assign({}, defaultListQuery),
+                list: null,
+                listLoading: false,
+                total: null,
+            }
+        },
+        methods:{
+            handleSearchList() {
+                this.listQuery.pageNum = 1;
+               // this.getList();
+            },
+            handleSizeChange(val) {
+                this.listQuery.pageNum = 1;
+                this.listQuery.pageSize = val;
+               // this.getList();
+            },
+            handleCurrentChange(val) {
+                this.listQuery.pageNum = val;
+              //  this.getList();
+            },
+            getList() {
+                this.listLoading = true;
+                fetchAccountListWithUserInfo(this.listQuery).then(response => {
+                    this.listLoading = false;
+                    this.list = response.data.list;
+                    this.total = response.data.total;
+                });
+            },
+        }
     }
 </script>
 

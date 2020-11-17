@@ -131,7 +131,35 @@ export const userRoutes=[
           title: '在职员工报销',
           icon: 'ums-admin'
         }
-      }
+      },
+      {
+        path: 'off',
+        component: () => import('@/views/user/apply/esOff'),
+        name: 'off',
+        meta: {
+          title: '离休人员报销',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'retire',
+        component: () => import('@/views/user/apply/esRetire'),
+        name: 'retire',
+        meta: {
+          title: '退休人员报销',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'other',
+        component: () => import('@/views/user/apply/esOther'),
+        name:'other',
+        meta: {
+          title: '其他人员报销',
+          icon: 'ums-admin'
+        }
+      },
+
     ]
   },
   {

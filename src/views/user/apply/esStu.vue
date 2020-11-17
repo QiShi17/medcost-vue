@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <apply-detail  :is-edit="false"  :type="1">
+        <apply-detail :apply-type="applyType">
 
         </apply-detail>
     </div>
@@ -8,11 +8,17 @@
 
 <script>
     import applyDetail from "./components/applyDetail";
+    import {STU} from '@/value/applyType'
 
 
     export default {
         name: "esStu",
-        components:{applyDetail}
+        components: {applyDetail},
+        data() {
+            return {
+                applyType: STU
+            }
+        }
     }
 </script>
 

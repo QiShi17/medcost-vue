@@ -12,13 +12,13 @@
 
 <script>
     import applyDetail from "./components/applyDetail";
-    import {ONDUTY} from '@/value/applyType'
+    import {OTHER} from '@/value/applyType'
     export default {
-        name: "esOnduty",
+        name: "esOther",
         components:{applyDetail},
         data(){
             return{
-                applyType:ONDUTY
+                applyType:OTHER
             }
         }
     }
