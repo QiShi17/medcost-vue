@@ -40,7 +40,7 @@
                     </template>
                     <el-form-item label="年度报销金额">
                         <el-tag>
-                            ￥{{user.annualExpense}}
+                            ￥{{Number(user.annualExpense)}}
                         </el-tag>
                     </el-form-item>
                 </el-form>
@@ -70,7 +70,7 @@
 
                         <template v-if="isChangeHospital||applyType===APPLY_TYPE.STU">
                             <el-form-item label="转诊单照片">
-                                <el-input v-model="expenseAccount.referralImg"></el-input>
+                                <single-upload v-model="expenseAccount.referralImg"></single-upload>
                             </el-form-item>
                             <el-form-item label="指定转诊限期">
                                 <el-date-picker
@@ -91,7 +91,7 @@
                         <el-input v-model="expenseAccount.disease"></el-input>
                     </el-form-item>
                     <el-form-item label="挂号单照片">
-                        <el-input v-model="expenseAccount.registImg"></el-input>
+                        <single-upload v-model="expenseAccount.registImg"></single-upload>
                     </el-form-item>
                     <el-form-item label="挂号时间">
                         <el-date-picker
@@ -104,10 +104,10 @@
                         <el-input v-model="expenseAccount.registFee"></el-input>
                     </el-form-item>
                     <el-form-item label="处方照片">
-                        <el-input v-model="expenseAccount.prescriptionImg"></el-input>
+                        <single-upload v-model="expenseAccount.prescriptionImg"></single-upload>
                     </el-form-item>
                     <el-form-item label="发票照片">
-                        <el-input v-model="expenseAccount.invoiceImg"></el-input>
+                        <single-upload v-model="expenseAccount.invoiceImg"></single-upload>
                     </el-form-item>
                     <el-form-item label="发票时间" style="margin-right: 5px">
                         <el-date-picker
@@ -145,6 +145,7 @@
     import {getHospitalList} from "@/api/hospital";
     import {STU,ONDUTY,RETIRE,OFF,OTHER} from '@/value/applyType'
     import {NEW,DRAFT,REVIEW,PASSED,UNPASSED,DELIVER,REJECT} from '@/value/accountStatus'
+    import SingleUpload from '@/components/Upload/singleUpload'
 
 
 
@@ -172,6 +173,7 @@
 
     export default {
         name: "applyDetail",
+        components:{SingleUpload},
         props: {
             applyType:{
                     type:Object,
