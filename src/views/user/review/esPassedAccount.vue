@@ -20,7 +20,7 @@
 
 <script>
     import AccountList from "../../../components/AccountList";
-    import {fetchAccountList,fetchMySubmitAccountList} from '@/api/expenseAccount';
+    import {fetchMyReviewAccountList} from '@/api/expenseAccount';
     import {PASSED} from "../../../value/accountStatus";
 
     const defaultListQuery = {
@@ -41,20 +41,12 @@
             }
         },
         created() {
-            this.getMySubmitList()
+            this.getMyReviewList()
         },
         methods: {
-            getList() {
-                this.listLoading = true;
-                fetchAccountList(this.listQuery).then(response => {
-                    this.listLoading = false;
-                    this.list = response.data.list;
-                    this.total = response.data.total;
-                });
-            },
-            getMySubmitList(){
+            getMyReviewList(){
                 this.listLoading=true;
-                fetchMySubmitAccountList(this.listQuery).then(response=>{
+                fetchMyReviewAccountList(this.listQuery).then(response=>{
                     this.listLoading = false;
                     this.list = response.data.list;
                     this.total = response.data.total;

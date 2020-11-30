@@ -20,7 +20,7 @@
 
 <script>
     import AccountList from "../../../components/AccountList";
-    import {fetchAccountList,fetchMySubmitAccountList} from '@/api/expenseAccount';
+    import {fetchMyDeliverAccountList} from '@/api/expenseAccount';
     import {PASSED} from "../../../value/accountStatus";
 
     const defaultListQuery = {
@@ -29,32 +29,24 @@
         status:PASSED.id
     };
     export default {
-        name: "esPassedAccount",
+        name: "esDeliverAccount",
         components: {AccountList},
         data() {
             return {
                 listQuery: Object.assign({}, defaultListQuery),
-                myOperations: ["查看详情"],
+                myOperations: ["查看详情","收单"],
                 list: null,
                 total: null,
                 listLoading: false
             }
         },
         created() {
-            this.getMySubmitList()
+            this.getMyDeliverList()
         },
         methods: {
-            getList() {
-                this.listLoading = true;
-                fetchAccountList(this.listQuery).then(response => {
-                    this.listLoading = false;
-                    this.list = response.data.list;
-                    this.total = response.data.total;
-                });
-            },
-            getMySubmitList(){
+            getMyDeliverList(){
                 this.listLoading=true;
-                fetchMySubmitAccountList(this.listQuery).then(response=>{
+                fetchMyDeliverAccountList(this.listQuery).then(response=>{
                     this.listLoading = false;
                     this.list = response.data.list;
                     this.total = response.data.total;

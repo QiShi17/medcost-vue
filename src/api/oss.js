@@ -5,3 +5,10 @@ export function policy() {
     method:'get',
   })
 }
+
+export function policyExcel() {
+  return request({
+    url:'/aliyun/oss/policy_excel',
+    method:'get',
+  })
+}

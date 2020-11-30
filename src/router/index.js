@@ -84,7 +84,39 @@ export const asyncRoutes = [
           title: '用户管理',
           icon: 'ums-admin'
         }
+      }
+    ]
+  },
+  {
+    path: adminPath+'/master',
+    component: Layout,
+    redirect: adminPath+'/master/passed_account',
+    name: 'master',
+    alwaysShow:true,
+    meta: {
+      title: '单据复查',
+      icon: 'ums-admin',
+      roles: ['MASTER'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'passed_account',
+        component: () => import('@/views/admin/master/esMasterPassedAccount'),
+        name: 'inReviewAccountMaster',
+        meta: {
+          title: '已通过单据',
+          icon: 'ums-admin'
+        }
       },
+      {
+        path: 'reject_account',
+        component: () => import('@/views/admin/master/esMasterRejectAccount'),
+        name: 'rejectAccountMaster',
+        meta: {
+          title: '已拒绝单据',
+          icon: 'ums-admin'
+        }
+      }
     ]
   }
 ]
@@ -176,7 +208,7 @@ export const userRoutes=[
       {
         path: 'draft_account',
         component: () => import('@/views/user/submit/esDraftAccount'),
-        name: 'draftAccount',
+        name: 'draftAccountSubmit',
         meta: {
           title: '草稿',
           icon: 'ums-admin'
@@ -185,13 +217,129 @@ export const userRoutes=[
       {
         path: 'in_review_account',
         component: () => import('@/views/user/submit/esInReviewAccount'),
-        name: 'esInReviewAccount',
+        name: 'esInReviewAccountSubmit',
+        meta: {
+          title: '审核中',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'passed_account',
+        component: () => import('@/views/user/submit/esPassedAccount'),
+        name: 'esPassedAccountSubmit',
+        meta: {
+          title: '审核通过',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'upassed_account',
+        component: () => import('@/views/user/submit/esUnpassedAccount'),
+        name: 'esUnpassedAccountSubmit',
+        meta: {
+          title: '审核不通过',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'reject_account',
+        component: () => import('@/views/user/submit/esRejectAccount'),
+        name: 'esRejectAccountSubmit',
+        meta: {
+          title: '已拒绝',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'deliver_account',
+        component: () => import('@/views/user/submit/esDeliverAccount'),
+        name: 'esDeliverAccountSubmit',
+        meta: {
+          title: '已收单',
+          icon: 'ums-admin'
+        }
+      },
+
+    ]
+  },
+  {
+    path: userPath+'/review',
+    component: UserLayout,
+    redirect: userPath+'/review/in_review_account',
+    name: 'review',
+    meta: {
+      title: '我审核的单据',
+      icon: 'ums-admin',
+      roles: ['REVIEWER'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'in_review_account',
+        component: () => import('@/views/user/review/esInReviewAccount'),
+        name: 'esInReviewAccountReview',
         meta: {
           title: '待审核',
           icon: 'ums-admin'
         }
       },
-
+      {
+        path: 'passed_account',
+        component: () => import('@/views/user/review/esPassedAccount'),
+        name: 'esPassedAccountReview',
+        meta: {
+          title: '审核通过',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'upassed_account',
+        component: () => import('@/views/user/review/esUnpassedAccount'),
+        name: 'esUnpassedAccountReview',
+        meta: {
+          title: '审核不通过',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'reject_account',
+        component: () => import('@/views/user/review/esRejectAccount'),
+        name: 'esRejectAccountReview',
+        meta: {
+          title: '已拒绝',
+          icon: 'ums-admin'
+        }
+      }
+    ]
+  },
+  {
+    path: userPath+'/deliver',
+    component: UserLayout,
+    redirect: userPath+'/deliver/passed_account',
+    name: 'deliver',
+    meta: {
+      title: '收单',
+      icon: 'ums-admin',
+      roles: ['DELIVER'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'passed_account',
+        component: () => import('@/views/user/deliver/esPassedAccount'),
+        name: 'esPassedAccountReview',
+        meta: {
+          title: '审核通过',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'deliver_account',
+        component: () => import('@/views/user/deliver/esDeliverAccount'),
+        name: 'esDeliverAccountReview',
+        meta: {
+          title: '已收单',
+          icon: 'ums-admin'
+        }
+      },
     ]
   }
 ]

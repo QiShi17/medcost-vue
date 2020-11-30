@@ -11,7 +11,7 @@ export const DRAFT={
 }
 
 //审核中（已提交未审核）
-export const REVIEW={
+export const IN_REVIEW={
     id:2
 }
 

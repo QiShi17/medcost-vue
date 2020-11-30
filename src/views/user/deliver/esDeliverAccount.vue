@@ -20,16 +20,16 @@
 
 <script>
     import AccountList from "../../../components/AccountList";
-    import {fetchAccountList,fetchMySubmitAccountList} from '@/api/expenseAccount';
-    import {PASSED} from "../../../value/accountStatus";
+    import {fetchMyDeliverAccountList} from '@/api/expenseAccount';
+    import {DELIVER} from "../../../value/accountStatus";
 
     const defaultListQuery = {
         pageNum: 1,
         pageSize: 10,
-        status:PASSED.id
+        status:DELIVER.id
     };
     export default {
-        name: "esPassedAccount",
+        name: "esDeliverAccount",
         components: {AccountList},
         data() {
             return {
@@ -41,20 +41,12 @@
             }
         },
         created() {
-            this.getMySubmitList()
+            this.getMyDeliverList()
         },
         methods: {
-            getList() {
-                this.listLoading = true;
-                fetchAccountList(this.listQuery).then(response => {
-                    this.listLoading = false;
-                    this.list = response.data.list;
-                    this.total = response.data.total;
-                });
-            },
-            getMySubmitList(){
+            getMyDeliverList(){
                 this.listLoading=true;
-                fetchMySubmitAccountList(this.listQuery).then(response=>{
+                fetchMyDeliverAccountList(this.listQuery).then(response=>{
                     this.listLoading = false;
                     this.list = response.data.list;
                     this.total = response.data.total;

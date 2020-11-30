@@ -3,15 +3,12 @@
     <el-upload
       :action="useOss?ossUploadUrl:minioUploadUrl"
       :data="useOss?dataObj:null"
-      list-type="picture"
-      :multiple="false" :show-file-list="showFileList"
-      :file-list="fileList"
+      :multiple="false"
       :before-upload="beforeUpload"
       :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview">
-      <el-button size="small" type="primary">点击上传</el-button>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
+      <el-button size="small" type="primary">批量导入</el-button>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="fileList[0].url" alt="">
@@ -19,8 +16,8 @@
   </div>
 </template>
 <script>
-  import {policy} from '@/api/oss'
-
+  import {policyExcel} from '@/api/oss'
+  import {importExcel} from "@/api/login";
 
   export default {
     name: 'singleUpload',
@@ -43,13 +40,6 @@
           name: this.imageName,
           url: this.imageUrl
         }]
-      },
-      showFileList: {
-        get: function () {
-          return this.value !== null && this.value !== ''&& this.value!==undefined;
-        },
-        set: function (newValue) {
-        }
       }
     },
     data() {
@@ -67,6 +57,7 @@
         useOss:true, //使用oss->true;使用MinIO->false
         ossUploadUrl:'http://medcost-oss.oss-cn-beijing.aliyuncs.com',
         minioUploadUrl:'http://localhost:8080/minio/upload',
+        curTimeStamp:'',
       };
     },
     methods: {
@@ -86,12 +77,12 @@
           return true;
         }
         return new Promise((resolve, reject) => {
-          policy().then(response => {
+          policyExcel().then(response => {
             _self.dataObj.policy = response.data.policy;
             _self.dataObj.signature = response.data.signature;
             _self.dataObj.ossaccessKeyId = response.data.accessKeyId;
-            _self.dataObj.key = response.data.dir + '/${filename}';
-            console.info(_self.dataObj.key)
+            _self.curTimeStamp=Date.now()
+            _self.dataObj.key = response.data.dir + '/'+_self.curTimeStamp+'${filename}';
             _self.dataObj.dir = response.data.dir;
             _self.dataObj.host = response.data.host;
             // _self.dataObj.callback = response.data.callback;
@@ -105,15 +96,27 @@
       handleUploadSuccess(res, file) {
         this.showFileList = true;
         this.fileList.pop();
-        let url = this.dataObj.host + '/' + this.dataObj.dir + '/' + file.name;
+        let curFileName=this.curTimeStamp+file.name;
+        let url = this.dataObj.host + '/' + this.dataObj.dir + '/' + curFileName;
         if(!this.useOss){
           //不使用oss直接获取图片路径
           url = res.data.url;
         }
-
+        let params = new URLSearchParams();
+        params.append("filename",this.dataObj.dir + '/' + curFileName)
+        importExcel(params).then(response=>{
+          this.$emit('getList')
+          this.$message({
+            message: '导入成功！',
+            type: 'success'
+          });
+        })
         this.fileList.push({name: file.name, url: url});
         this.emitInput(this.fileList[0].url);
+
       }
+
+
     }
   }
 </script>

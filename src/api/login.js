@@ -80,3 +80,10 @@ export function allocRole(data) {
     })
 }
 
+export function importExcel(params) {
+    return request({
+        url: '/user/import_excel',
+        method: 'post',
+        params: params
+    })
+}

@@ -1,119 +1,87 @@
 <template> 
     <div class="app-container">
-        <el-card class="filter-container" shadow="never">
-            <div>
-                <i class="el-icon-search"></i>
-                <span>筛选搜索</span>
-                <el-button
-                        style="float:right"
-                        type="primary"
-                        @click="handleSearchList()"
-                        size="small">
-                    查询搜索
-                </el-button>
-                <el-button
-                        style="float:right;margin-right: 15px"
-                        @click="handleResetSearch()"
-                        size="small">
-                    重置
-                </el-button>
-            </div>
-            <div style="margin-top: 15px">
-                <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-                    <el-form-item label="输入搜索：">
-                        <el-input v-model="listQuery.keyword" class="input-width" placeholder="帐号/姓名" clearable></el-input>
-                    </el-form-item>
-                </el-form>
-            </div>
-        </el-card>
         <el-card class="operate-container" shadow="never">
             <i class="el-icon-tickets"></i>
             <span>数据列表</span>
             <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
-            <file-upload class="btn-add" @getList="getList"></file-upload>
         </el-card>
         <div class="table-container">
             <el-table ref="userTable"
-                      :data="list"
+                      :data="myList"
                       style="width: 100%;"
-                      v-loading="listLoading" border>
-                <el-table-column label="编号" width="100" align="center">
-                    <template slot-scope="scope">{{scope.row.id}}</template>
+                      v-loading="myListLoading" border>
+                <el-table-column label="流水号" width="100" align="center">
+                    <template slot-scope="scope">{{scope.row.serialNum}}</template>
                 </el-table-column>
-                <el-table-column label="类型" align="center">
-                    <template slot-scope="scope">{{scope.row.type | formatUserTypeThis}}</template>
+                <el-table-column label="报销类型" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
                 </el-table-column>
-                <el-table-column label="帐号" align="center">
+                <el-table-column label="学工号" align="center">
                     <template slot-scope="scope">{{scope.row.username}}</template>
                 </el-table-column>
                 <el-table-column label="姓名" align="center">
-                <template slot-scope="scope">{{scope.row.realname}}</template>
-            </el-table-column>
-                <el-table-column label="性别" align="center">
-                    <template slot-scope="scope">{{scope.row.gender | formatGenderThis}}</template>
+                    <template slot-scope="scope">{{scope.row.realname}}</template>
                 </el-table-column>
-                <el-table-column label="学院" align="center">
-                    <template slot-scope="scope">{{scope.row.school}}</template>
+                <el-table-column label="病症" align="center">
+                    <template slot-scope="scope">{{scope.row.disease}}</template>
                 </el-table-column>
-                <el-table-column label="专业" align="center">
-                    <template slot-scope="scope">{{scope.row.major}}</template>
+                <el-table-column label="挂号金额" align="center">
+                    <template slot-scope="scope">￥{{scope.row.registFee}}</template>
                 </el-table-column>
-                <el-table-column label="年级" align="center">
-                    <template slot-scope="scope">{{scope.row.grade}}</template>
+                <el-table-column label="发票金额" align="center">
+                    <template slot-scope="scope">￥{{scope.row.invoiceFee}}</template>
                 </el-table-column>
-                <el-table-column label="部门" align="center">
-                <template slot-scope="scope">{{scope.row.department}}</template>
-            </el-table-column>
-                <el-table-column label="添加时间" width="160" align="center">
+                <el-table-column label="总金额" align="center">
+                    <template slot-scope="scope">￥{{Number(scope.row.invoiceFee)+Number(scope.row.registFee)}}</template>
+                </el-table-column>
+                <el-table-column label="审核历史" align="center" label-width="300px">
+                    <template slot-scope="scope">
+                        <template v-for="item in scope.row.reviewHistoryList">
+                           {{item.createTime}}:审核人：{{item.reviewerName}} {{item.reviewerIdNum}}/审核意见：{{item.comment}}
+                        </template>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="提交时间" width="160" align="center">
                     <template slot-scope="scope">{{scope.row.createTime | formatDateTime}}</template>
                 </el-table-column>
-                <el-table-column label="最后登录" width="160" align="center">
-                    <template slot-scope="scope">{{scope.row.loginTime | formatDateTime}}</template>
-                </el-table-column>
-                <el-table-column label="修改时间" width="160" align="center">
-                    <template slot-scope="scope">{{scope.row.updateTime | formatDateTime}}</template>
-                </el-table-column>
-                <el-table-column label="是否启用" width="140" align="center">
-                    <template slot-scope="scope">
-                        <el-switch
-                                @change="handleStatusChange(scope.$index, scope.row)"
-                                :active-value="1"
-                                :inactive-value="0"
-                                v-model="scope.row.status">
-                        </el-switch>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" width="180" align="center">
-                    <template slot-scope="scope">
-                        <el-button size="mini"
-                                   type="text"
-                                   @click="handleSelectRole(scope.$index, scope.row)">分配角色
-                        </el-button>
-                        <el-button size="mini"
-                                   type="text"
-                                   @click="handleUpdate(scope.$index, scope.row)">
-                            编辑
-                        </el-button>
-                        <el-button size="mini"
-                                   type="text"
-                                   @click="handleDelete(scope.$index, scope.row)">删除
-                        </el-button>
-                    </template>
+                <el-table-column label="操作" width="200" align="center">
+                        <template  slot-scope="scope">
+                            <el-button v-if="curOperations.indexOf('查看详情')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleShowDetails(scope.$index, scope.row)">
+                                查看详情
+                            </el-button>
+                            <el-button v-if="curOperations.indexOf('收单')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleDeliver(scope.$index, scope.row)">
+                                收单
+                            </el-button>
+                            <el-button v-if="curOperations.indexOf('编辑')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleUpdate(scope.$index, scope.row)">
+                                编辑
+                            </el-button>
+                            <el-button v-if="curOperations.indexOf('提交')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleSubmit(scope.$index, scope.row)">
+                                提交
+                            </el-button>
+                            <el-button v-if="curOperations.indexOf('撤销')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleRevoke(scope.$index, scope.row)">
+                                撤销
+                            </el-button>
+                        </template>
                 </el-table-column>
             </el-table>
         </div>
-        <div class="pagination-container">
-            <el-pagination
-                    background
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    layout="total, sizes,prev, pager, next,jumper"
-                    :current-page.sync="listQuery.pageNum"
-                    :page-size="listQuery.pageSize"
-                    :page-sizes="[10,15,20]"
-                    :total="total">
-            </el-pagination>
-        </div>
+
         <el-dialog
                 :title="isEdit?'编辑用户':'添加用户'"
                 :visible.sync="dialogVisible"
@@ -193,18 +161,11 @@
     </div>
 </template>
 <script>
-    import {fetchList,createUser,updateUser,updateStatus,deleteUser,getRoleByUser,allocRole} from '@/api/login';
-    import {fetchAllRoleList} from '@/api/role';
+    import {createUser,updateUser,allocRole} from '@/api/login';
     import {formatDate} from '@/utils/date';
     import {formatGender,getAllGenders} from '@/utils/gender';
     import {formatUserType,getAllUserTypes} from '@/utils/userType';
-    import FileUpload from '@/components/Upload/fileUpload'
 
-    const defaultListQuery = {
-        pageNum: 1,
-        pageSize: 10,
-        keyword: null
-    };
     const defaultUser = {
         id: null,
         username: null,
@@ -215,15 +176,27 @@
         status: 1
     };
     export default {
-        name: 'userList',
-        components:{FileUpload},
+        name: "AccountList",
+        props: {
+            curOperations:{
+                type:Array,
+                default:()=>[]
+            },
+            myList:{
+                type:Array,
+                default:()=>[]
+            },
+            myListLoading:{
+                type:Boolean,
+                default:false,
+            },
+            myDialogVisible:{
+                type:Boolean,
+                default:false,
+            }
+        },
         data() {
             return {
-                listQuery: Object.assign({}, defaultListQuery),
-                list: null,
-                total: null,
-                listLoading: false,
-                dialogVisible: false,
                 user: Object.assign({}, defaultUser),
                 isEdit: false,
                 allocDialogVisible: false,
@@ -231,12 +204,9 @@
                 allRoleList: [],
                 allocUserId: null,
                 userTypeList: getAllUserTypes(),
-                genderList: getAllGenders()
+                genderList: getAllGenders(),
+                dialogVisible:false
             }
-        },
-        created() {
-            this.getList();
-            this.getAllRoleList();
         },
         filters: {
             formatDateTime(time) {
@@ -257,25 +227,28 @@
                     return 'N/A';
                 }
                 return formatUserType(type)
-            },
-
+            }
         },
         methods: {
-            handleResetSearch() {
-                this.listQuery = Object.assign({}, defaultListQuery);
+            //编辑
+            handleUpdate(index, row){
+
             },
-            handleSearchList() {
-                this.listQuery.pageNum = 1;
-                this.getList();
+            //查看详情
+            handleShowDetails(index, row){
+
             },
-            handleSizeChange(val) {
-                this.listQuery.pageNum = 1;
-                this.listQuery.pageSize = val;
-                this.getList();
+            //收单
+            handleDeliver(index, row){
+
             },
-            handleCurrentChange(val) {
-                this.listQuery.pageNum = val;
-                this.getList();
+            //提交单据
+            handleSubmit(index, row){
+
+            },
+            //撤销
+            handleRevoke(index, row){
+
             },
             handleAdd() {
                 this.dialogVisible = true;
@@ -301,32 +274,6 @@
                     });
                     this.getList();
                 });
-            },
-            handleDelete(index, row) {
-                this.$confirm('是否要删除该用户?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    // deleteUser(row.id).then(response => {
-                    //     this.$message({
-                    //         type: 'success',
-                    //         message: '删除成功!'
-                    //     });
-                    //     this.getList();
-                    // });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '取消删除'
-                    });
-                    this.getList();
-                });
-            },
-            handleUpdate(index, row) {
-                this.dialogVisible = true;
-                this.isEdit = true;
-                this.user = Object.assign({}, row);
             },
             handleDialogConfirm() {
                 this.$confirm('是否要确认?', '提示', {
@@ -373,36 +320,12 @@
                     })
                 })
             },
-            handleSelectRole(index, row) {
-                this.allocUserId = row.id;
-                this.allocDialogVisible = true;
-                this.getRoleListByUser(row.id);
-            },
-            getList() {
-                this.listLoading = true;
-                fetchList(this.listQuery).then(response => {
-                    this.listLoading = false;
-                    this.list = response.data.list;
-                    this.total = response.data.total;
-                });
-            },
-            getAllRoleList() {
-                fetchAllRoleList().then(response => {
-                    this.allRoleList = response.data;
-                });
-            },
-            getRoleListByUser(userId) {
-                getRoleByUser(userId).then(response => {
-                    let allocRoleList = response.data;
-                    this.allocRoleIds = [];
-                    if (allocRoleList != null && allocRoleList.length > 0) {
-                        for (let i = 0; i < allocRoleList.length; i++) {
-                            this.allocRoleIds.push(allocRoleList[i].id);
-                        }
-                    }
-                });
-            }
         }
     }
 </script>
 <style></style>
+
+
+
+
+
