@@ -118,6 +118,29 @@ export const asyncRoutes = [
         }
       }
     ]
+  },
+  {
+    path: adminPath+'/dms',
+    component: Layout,
+    redirect: adminPath+'/dms/department',
+    name: 'adminDms',
+    alwaysShow:true,
+    meta: {
+      title: '部门管理',
+      icon: 'ums-admin',
+      roles: ['ADMIN'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'department',
+        component: () => import('@/views/admin/dms/department/dmsDepartment'),
+        name: 'adminDepartment',
+        meta: {
+          title: '部门管理',
+          icon: 'ums-admin'
+        }
+      },
+    ]
   }
 ]
 
