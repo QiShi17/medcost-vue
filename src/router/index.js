@@ -82,7 +82,7 @@ export const asyncRoutes = [
         name: 'adminUser',
         meta: {
           title: '用户管理',
-          icon: 'ums-admin'
+          icon: 'ums-role'
         }
       }
     ]
@@ -95,7 +95,7 @@ export const asyncRoutes = [
     alwaysShow:true,
     meta: {
       title: '单据复查',
-      icon: 'ums-admin',
+      icon: 'sms-subject',
       roles: ['MASTER'] // you can set roles in root nav
     },
     children: [
@@ -105,7 +105,7 @@ export const asyncRoutes = [
         name: 'inReviewAccountMaster',
         meta: {
           title: '已通过单据',
-          icon: 'ums-admin'
+          icon: 'sms'
         }
       },
       {
@@ -114,7 +114,7 @@ export const asyncRoutes = [
         name: 'rejectAccountMaster',
         meta: {
           title: '已拒绝单据',
-          icon: 'ums-admin'
+          icon: 'sms-id'
         }
       }
     ]
@@ -142,7 +142,7 @@ export const userRoutes=[
     name: 'apply',
     meta: {
       title: '报销申请',
-      icon: 'ums-admin',
+      icon: 'form',
       roles: ['USER'] // you can set roles in root nav
     },
     children: [
@@ -152,7 +152,7 @@ export const userRoutes=[
         name: 'stu',
         meta: {
           title: '学生报销',
-          icon: 'ums-admin'
+          icon: 'user-graduate'
         }
       },
       {
@@ -161,7 +161,7 @@ export const userRoutes=[
         name: 'onduty',
         meta: {
           title: '在职员工报销',
-          icon: 'ums-admin'
+          icon: 'user-circle'
         }
       },
       {
@@ -170,7 +170,7 @@ export const userRoutes=[
         name: 'off',
         meta: {
           title: '离休人员报销',
-          icon: 'ums-admin'
+          icon: 'user-ninja'
         }
       },
       {
@@ -179,7 +179,7 @@ export const userRoutes=[
         name: 'retire',
         meta: {
           title: '退休人员报销',
-          icon: 'ums-admin'
+          icon: 'user-secret'
         }
       },
       {
@@ -188,7 +188,7 @@ export const userRoutes=[
         name:'other',
         meta: {
           title: '其他人员报销',
-          icon: 'ums-admin'
+          icon: 'user-tie'
         }
       },
 
@@ -201,7 +201,7 @@ export const userRoutes=[
     name: 'submit',
     meta: {
       title: '我提交的单据',
-      icon: 'ums-admin',
+      icon: 'newspaper',
       roles: ['USER'] // you can set roles in root nav
     },
     children: [
@@ -211,7 +211,7 @@ export const userRoutes=[
         name: 'draftAccountSubmit',
         meta: {
           title: '草稿',
-          icon: 'ums-admin'
+          icon: 'product-brand'
         }
       },
       {
@@ -220,7 +220,7 @@ export const userRoutes=[
         name: 'esInReviewAccountSubmit',
         meta: {
           title: '审核中',
-          icon: 'ums-admin'
+          icon: 'product-comment'
         }
       },
       {
@@ -229,7 +229,7 @@ export const userRoutes=[
         name: 'esPassedAccountSubmit',
         meta: {
           title: '审核通过',
-          icon: 'ums-admin'
+          icon: 'product-list'
         }
       },
       {
@@ -247,7 +247,7 @@ export const userRoutes=[
         name: 'esRejectAccountSubmit',
         meta: {
           title: '已拒绝',
-          icon: 'ums-admin'
+          icon: 'exclamation-triangle'
         }
       },
       {
@@ -256,7 +256,7 @@ export const userRoutes=[
         name: 'esDeliverAccountSubmit',
         meta: {
           title: '已收单',
-          icon: 'ums-admin'
+          icon: 'download'
         }
       },
 
@@ -269,7 +269,7 @@ export const userRoutes=[
     name: 'review',
     meta: {
       title: '我审核的单据',
-      icon: 'ums-admin',
+      icon: 'product-brand',
       roles: ['REVIEWER'] // you can set roles in root nav
     },
     children: [
@@ -279,7 +279,7 @@ export const userRoutes=[
         name: 'esInReviewAccountReview',
         meta: {
           title: '待审核',
-          icon: 'ums-admin'
+          icon: 'sms-flash'
         }
       },
       {
@@ -288,7 +288,7 @@ export const userRoutes=[
         name: 'esPassedAccountReview',
         meta: {
           title: '审核通过',
-          icon: 'ums-admin'
+          icon: 'order'
         }
       },
       {
@@ -297,7 +297,7 @@ export const userRoutes=[
         name: 'esUnpassedAccountReview',
         meta: {
           title: '审核不通过',
-          icon: 'ums-admin'
+          icon: 'exclamation-triangle'
         }
       },
       {
@@ -306,7 +306,7 @@ export const userRoutes=[
         name: 'esRejectAccountReview',
         meta: {
           title: '已拒绝',
-          icon: 'ums-admin'
+          icon: 'exclamation'
         }
       }
     ]
@@ -318,7 +318,7 @@ export const userRoutes=[
     name: 'deliver',
     meta: {
       title: '收单',
-      icon: 'ums-admin',
+      icon: 'product-add',
       roles: ['DELIVER'] // you can set roles in root nav
     },
     children: [
@@ -328,7 +328,7 @@ export const userRoutes=[
         name: 'esPassedAccountReview',
         meta: {
           title: '审核通过',
-          icon: 'ums-admin'
+          icon: 'order'
         }
       },
       {
@@ -337,7 +337,7 @@ export const userRoutes=[
         name: 'esDeliverAccountReview',
         meta: {
           title: '已收单',
-          icon: 'ums-admin'
+          icon: 'order'
         }
       },
     ]
