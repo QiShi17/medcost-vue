@@ -2,7 +2,7 @@
     <div>
         <div class="app-container">
 
-            <apply-detail :apply-type="applyType" >
+            <apply-detail :apply-type="applyType">
 
             </apply-detail>
 
