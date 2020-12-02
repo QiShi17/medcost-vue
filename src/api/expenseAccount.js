@@ -64,3 +64,10 @@ export function fetchMyMasterAccountList(params) {
         params:params
     })
 }
+
+export function getExpenseAccountDetailById(id) {
+    return request({
+        url: expenseAccountUrl + '/list/' + id,
+        method: 'get',
+    })
+}

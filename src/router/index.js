@@ -282,7 +282,17 @@ export const userRoutes=[
           icon: 'download'
         }
       },
-
+      {
+        // 新增详情页，hidden为true将其在侧边栏隐藏
+        path: 'detail',
+        component: () => import('@/views/user/submit/expenseAccountDetail'),
+        name: 'expenseAccountDetail',
+        hidden:true,
+        meta: {
+          title: '详情页',
+          icon: 'download'
+        }
+      },
     ]
   },
   {
