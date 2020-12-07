@@ -67,7 +67,7 @@ export function fetchMyMasterAccountList(params) {
 
 export function getExpenseAccountDetailById(id) {
     return request({
-        url: expenseAccountUrl + '/list/' + id,
+        url: expenseAccountUrl + '/detail/' + id,
         method: 'get',
     })
 }
