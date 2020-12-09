@@ -19,6 +19,8 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "less": "^3.12.2",
+    "less-loader": "^7.1.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.4",
     "svg-sprite-loader": "^3.9.2",

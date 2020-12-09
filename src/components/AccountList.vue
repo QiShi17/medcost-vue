@@ -77,6 +77,18 @@
                                        @click="handleRevoke(scope.$index, scope.row)">
                                 撤销
                             </el-button>
+                            <el-button v-if="curOperations.indexOf('拒绝')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleReject(scope.$index, scope.row)">
+                                拒绝
+                            </el-button>
+                            <el-button v-if="curOperations.indexOf('同意')>=0"
+                                       size="mini"
+                                       type="text"
+                                       @click="handleAgree(scope.$index, scope.row)">
+                                同意
+                            </el-button>
                         </template>
                 </el-table-column>
             </el-table>
@@ -134,7 +146,6 @@
                         <el-input v-model="user.department" style="width: 250px"></el-input>
                     </el-form-item>
                 </template>
-
             </el-form>
             <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small">取 消</el-button>
@@ -161,10 +172,11 @@
     </div>
 </template>
 <script>
-    import {createUser,updateUser,allocRole} from '@/api/login';
+    import {createUser,updateUser,allocRole,getInfo} from '@/api/login';
     import {formatDate} from '@/utils/date';
     import {formatGender,getAllGenders} from '@/utils/gender';
     import {formatUserType,getAllUserTypes} from '@/utils/userType';
+    import {agreeExpenseAccountById,rejectExpenseAccountById,revokeExpenseAccountById} from '@/api/expenseAccount';
 
     const defaultUser = {
         id: null,
@@ -195,6 +207,10 @@
                 default:false,
             }
         },
+        created() {
+            //获取当前页面的user属性
+            this.getUser()
+        },
         data() {
             return {
                 user: Object.assign({}, defaultUser),
@@ -205,7 +221,9 @@
                 allocUserId: null,
                 userTypeList: getAllUserTypes(),
                 genderList: getAllGenders(),
-                dialogVisible:false
+                dialogVisible:false,
+                usernameTest:'',
+                comment:''
             }
         },
         filters: {
@@ -246,9 +264,72 @@
             handleSubmit(index, row){
 
             },
-            //撤销
+            //撤销(审核负责人撤销审核员审核通过的单据)
             handleRevoke(index, row){
-
+                this.$confirm('是否撤销该审核人已经审核通过的单据?','提示',{
+                    confirmButtonText:'确定',
+                    cancelButtonText:'取消',
+                    type:'warning'
+                }).then(()=>{
+                    let params = new URLSearchParams();
+                    params.append("masterUsername", this.usernameTest);
+                    revokeExpenseAccountById(row.id,params).then(()=> {
+                        this.$message({
+                            message: '已撤销该被通过的单据',
+                            type: 'success'
+                        });
+                    })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '取消撤销行为'
+                    });
+                })
+            },
+            //审核员同意
+            handleAgree(index,row){
+                this.$confirm('是否同意报销人的申请?','提示',{
+                    confirmButtonText:'确定',
+                    cancelButtonText:'取消',
+                    type:'warning'
+                }).then(() => {
+                    let params = new URLSearchParams();
+                    params.append("reviewerUsername", this.usernameTest);
+                    agreeExpenseAccountById(row.id,params).then(()=> {
+                        this.$message({
+                            message: '审核通过该单据',
+                            type: 'success'
+                        });
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消审核通过行为'
+                    });
+                })
+            },
+            //审核员拒绝(拒绝)
+            handleReject(index ,row) {
+                this.$prompt('请修改意见', '拒绝', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputErrorMessage: '格式不正确'
+                }).then(({ value }) => {
+                    let params = new URLSearchParams();
+                    params.append("comment", value);
+                    params.append("reviewerUsername",this.usernameTest);
+                    rejectExpenseAccountById(row.id,params).then(()=>{
+                        this.$message({
+                            type: 'success',
+                            message: '已拒绝该单据'
+                        });
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消拒绝该单据的行为'
+                    });
+                });
             },
             handleAdd() {
                 this.dialogVisible = true;
@@ -320,10 +401,18 @@
                     })
                 })
             },
+            getUser() {
+                getInfo().then(response => {
+                    this.usernameTest = response.data.username
+                })
+            },
         }
     }
 </script>
-<style></style>
+<style lang="less" scoped>
+    //
+</style>
+
 
 
 
