@@ -293,6 +293,17 @@ export const userRoutes=[
           icon: 'download'
         }
       },
+      {
+        // 新增详情页，hidden为true将其在侧边栏隐藏
+        path: 'detail',
+        component: () => import('@/views/user/submit/printExpenseAccount'),
+        name: 'printExpenseAccount',
+        hidden: true,
+        meta: {
+          title: '打印单据生成二维码',
+          icon: 'download'
+        }
+      }
     ]
   },
   {

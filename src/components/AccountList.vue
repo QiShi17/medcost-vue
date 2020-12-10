@@ -262,7 +262,7 @@
             },
             //提交单据
             handleSubmit(index, row){
-
+                this.$router.push({name:"printExpenseAccount",params:{id:row.id}});
             },
             //撤销(审核负责人撤销审核员审核通过的单据)
             handleRevoke(index, row){
