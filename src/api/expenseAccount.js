@@ -74,3 +74,35 @@ export function deliver(id) {
 }
 
 
+export function getExpenseAccountDetailById(id) {
+    return request({
+        url: expenseAccountUrl + '/detail/' + id,
+        method: 'get',
+    })
+}
+
+//修改一个单据的状态，并改变reviewerexpenseaccountrelation中的审核人信息
+export function agreeExpenseAccountById(expenseAccountId,data) {
+    return request({
+        url: expenseAccountUrl + '/agree/'+ expenseAccountId,
+        method: 'post',
+        data: data
+    })
+}
+
+//修改一个单据的状态，并添加一条reviewerexpenseaccountrelation中的审核人信息的记录
+export function rejectExpenseAccountById(expenseAccountId,data) {
+    return request({
+        url: expenseAccountUrl + '/reject/'+ expenseAccountId,
+        method: 'post',
+        data: data
+    })
+}
+
+export function revokeExpenseAccountById(expenseAccountId,data) {
+    return request({
+        url: expenseAccountUrl + '/revoke/'+ expenseAccountId,
+        method: 'post',
+        data: data
+    })
+}
