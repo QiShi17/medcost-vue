@@ -165,6 +165,7 @@
     import {formatDate} from '@/utils/date';
     import {formatGender,getAllGenders} from '@/utils/gender';
     import {formatUserType,getAllUserTypes} from '@/utils/userType';
+    import {deliver} from "@/api/expenseAccount";
 
     const defaultUser = {
         id: null,
@@ -240,6 +241,28 @@
             },
             //收单
             handleDeliver(index, row){
+                this.$confirm('是否确认收单', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                  //huangxiaohou：这里写确认收单后方法
+                  console.log(row.id);
+                  debugger;
+                   deliver(row.id).then(response => {
+                    this.$message({
+                      message: '收单成功！',
+                      type: 'success'
+                    });
+                    // this.getList();
+                  })
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '取消收单'
+                  });
+                  // this.getList();
+                });
 
             },
             //提交单据

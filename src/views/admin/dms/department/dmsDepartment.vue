@@ -110,7 +110,6 @@
 <script>
 import {fetchList,createDepartment,updateDepartment,deleteDepartment} from '@/api/department';
 import {formatDate} from '@/utils/date';
-//import {formatUserType,getAllUserTypes} from '@/utils/userType';
 
 
 const defaultListQuery = {
@@ -173,7 +172,6 @@ export default {
     },
 
     handleStatusChange(index, row) {
-      debugger;
       this.$confirm('是否要修改该状态?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
