@@ -20,7 +20,8 @@ import './permission' // permission control
 
 
 import Router from 'vue-router'
-
+import htmlToPdf from './utils/html2pdf'
+Vue.use(htmlToPdf)
 Vue.use(Element)
 
 Vue.config.productionTip = false
