@@ -47,6 +47,11 @@
                 </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                         <template  slot-scope="scope">
+                            <el-button size="mini"
+                                       type="text"
+                                       @click="showId(scope.$index, scope.row)">
+                                查看id
+                            </el-button>
                             <el-button v-if="curOperations.indexOf('查看详情')>=0"
                                        size="mini"
                                        type="text"
@@ -230,6 +235,10 @@
             }
         },
         methods: {
+            //编辑
+            showId(index, row){
+                console.info(row.id)
+            },
             //编辑
             handleUpdate(index, row){
 

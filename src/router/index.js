@@ -231,7 +231,7 @@ export const userRoutes=[
       {
         path: 'draft_account',
         component: () => import('@/views/user/submit/esDraftAccount'),
-        name: 'draftAccountSubmit',
+        name: 'submitDraftAccountSubmit',
         meta: {
           title: '草稿',
           icon: 'product-brand'
@@ -240,7 +240,7 @@ export const userRoutes=[
       {
         path: 'in_review_account',
         component: () => import('@/views/user/submit/esInReviewAccount'),
-        name: 'esInReviewAccountSubmit',
+        name: 'submitInReviewAccountSubmit',
         meta: {
           title: '审核中',
           icon: 'product-comment'
@@ -249,7 +249,7 @@ export const userRoutes=[
       {
         path: 'passed_account',
         component: () => import('@/views/user/submit/esPassedAccount'),
-        name: 'esPassedAccountSubmit',
+        name: 'submitPassedAccountSubmit',
         meta: {
           title: '审核通过',
           icon: 'product-list'
@@ -258,7 +258,7 @@ export const userRoutes=[
       {
         path: 'upassed_account',
         component: () => import('@/views/user/submit/esUnpassedAccount'),
-        name: 'esUnpassedAccountSubmit',
+        name: 'submitUnpassedAccountSubmit',
         meta: {
           title: '审核不通过',
           icon: 'ums-admin'
@@ -267,7 +267,7 @@ export const userRoutes=[
       {
         path: 'reject_account',
         component: () => import('@/views/user/submit/esRejectAccount'),
-        name: 'esRejectAccountSubmit',
+        name: 'submitRejectAccountSubmit',
         meta: {
           title: '已拒绝',
           icon: 'exclamation-triangle'
@@ -276,7 +276,7 @@ export const userRoutes=[
       {
         path: 'deliver_account',
         component: () => import('@/views/user/submit/esDeliverAccount'),
-        name: 'esDeliverAccountSubmit',
+        name: 'submitDeliverAccountSubmit',
         meta: {
           title: '已收单',
           icon: 'download'
@@ -299,7 +299,7 @@ export const userRoutes=[
       {
         path: 'in_review_account',
         component: () => import('@/views/user/review/esInReviewAccount'),
-        name: 'esInReviewAccountReview',
+        name: 'reviewInReviewAccountReview',
         meta: {
           title: '待审核',
           icon: 'sms-flash'
@@ -308,7 +308,7 @@ export const userRoutes=[
       {
         path: 'passed_account',
         component: () => import('@/views/user/review/esPassedAccount'),
-        name: 'esPassedAccountReview',
+        name: 'reviewPassedAccountReview',
         meta: {
           title: '审核通过',
           icon: 'order'
@@ -317,7 +317,7 @@ export const userRoutes=[
       {
         path: 'upassed_account',
         component: () => import('@/views/user/review/esUnpassedAccount'),
-        name: 'esUnpassedAccountReview',
+        name: 'reviewUnpassedAccountReview',
         meta: {
           title: '审核不通过',
           icon: 'exclamation-triangle'
@@ -326,7 +326,7 @@ export const userRoutes=[
       {
         path: 'reject_account',
         component: () => import('@/views/user/review/esRejectAccount'),
-        name: 'esRejectAccountReview',
+        name: 'reviewRejectAccountReview',
         meta: {
           title: '已拒绝',
           icon: 'exclamation'
@@ -348,7 +348,7 @@ export const userRoutes=[
       {
         path: 'passed_account',
         component: () => import('@/views/user/deliver/esPassedAccount'),
-        name: 'esPassedAccountReview',
+        name: 'deliverPassedAccountReview',
         meta: {
           title: '审核通过',
           icon: 'order'
@@ -357,7 +357,7 @@ export const userRoutes=[
       {
         path: 'deliver_account',
         component: () => import('@/views/user/deliver/esDeliverAccount'),
-        name: 'esDeliverAccountReview',
+        name: 'deliverDeliverAccountReview',
         meta: {
           title: '已收单',
           icon: 'order'
