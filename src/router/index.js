@@ -163,6 +163,15 @@ export const asyncRoutes = [
           icon: 'ums-admin'
         }
       },
+      {
+        path: 'echarts',
+        component: () => import('@/views/admin/statistic/reviewResult/echarts'),
+        name: 'echarts',
+        meta: {
+          title: '图标显示统计结果',
+          icon: 'ums-admin'
+        }
+      },
     ]
   }
 ]
