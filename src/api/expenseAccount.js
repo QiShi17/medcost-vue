@@ -106,3 +106,10 @@ export function revokeExpenseAccountById(expenseAccountId,data) {
         data: data
     })
 }
+
+export function fetchAccount2printById(expenseAccountId) {
+    return request({
+        url: expenseAccountUrl + '/print/'+ expenseAccountId,
+        method: 'get',
+    })
+}
