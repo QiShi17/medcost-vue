@@ -273,15 +273,11 @@
                   cancelButtonText: '取消',
                   type: 'warning'
                 }).then(() => {
-                  //huangxiaohou：这里写确认收单后方法
-                  console.log(row.id);
-                  debugger;
                    deliver(row.id).then(response => {
                     this.$message({
                       message: '收单成功！',
                       type: 'success'
                     });
-                    // this.getList();
                   })
                 }).catch(() => {
                   this.$message({

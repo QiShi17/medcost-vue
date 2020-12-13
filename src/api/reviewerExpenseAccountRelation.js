@@ -1,9 +1,9 @@
 import request from "@/utils/request";
 
-export function deliver(id) {
+export function FetchReviewResultStatisticList(params) {
     return request({
-        url: '/reviewer_expense_account_relation/deliver' ,
-        method: 'post',
-        data: id
+        url: '/reviewer_expense_account_relation/ReviewResultStatistic',
+        method: 'get',
+        params: params
     })
 }
