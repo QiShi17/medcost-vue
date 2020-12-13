@@ -318,7 +318,7 @@ export const userRoutes=[
       },
       {
         // 新增详情页，hidden为true将其在侧边栏隐藏
-        path: 'detail',
+        path: 'print',
         component: () => import('@/views/user/submit/printExpenseAccount'),
         name: 'printExpenseAccount',
         hidden: true,

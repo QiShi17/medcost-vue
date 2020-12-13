@@ -2,30 +2,153 @@
     <div>
             <div id="pdfCentent">
 <!-- 在此处编写需要下载的东西              -->
-                <vue-qr :text="downloadData.info" :margin="10" colorDark="#000" colorLight="#fff" :dotScale="1" :logoSrc="downloadData.icon" :logoScale="0.2" :size="200"></vue-qr>
+                <div>
+                    <el-card >
+                        <div slot="header" class="clearfix">
+                            <span>打印单据</span>
+                        </div>
+                        <el-form :model="expenseAccountDetail" label-width="100px"  size="mini">
+                                <el-col :span=8>
+                                    <el-form-item label="流水号" >
+                                        <el-tag>{{this.account2Print.serialNum}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="报销类型" >
+                                        <el-tag v-if="account2Print.expenseTypeId===1">学生报销</el-tag>
+                                        <el-tag v-if="account2Print.expenseTypeId===2">在职职工报销</el-tag>
+                                        <el-tag v-if="account2Print.expenseTypeId===3">退休职工报销</el-tag>
+                                        <el-tag v-if="account2Print.expenseTypeId===4">离休职工报销</el-tag>
+                                        <el-tag v-if="account2Print.expenseTypeId===5">其他报销类型</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="姓名" >
+                                        <el-tag>{{this.account2Print.realname}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="用户名" >
+                                        <el-tag>{{this.account2Print.username}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+
+                                <el-col :span=8>
+                                    <el-form-item label="转诊前医院" >
+                                        <el-tag>{{this.account2Print.lhospitalName}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="科室" >
+                                        <el-tag>{{this.account2Print.room}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+
+
+                        </el-form>
+                        <vue-qr :text="downloadData.url"
+                                :margin="10" colorDark="#000" colorLight="#fff"
+                                :dotScale="1"
+                                :logoSrc="downloadData.icon"
+                                :logoScale="0.2"
+                                :size="200">
+                        </vue-qr>
+                    </el-card>
+                </div>
+
+                <el-card>
+                    <div slot="header" class="clearfix">
+                        <span>报销人签字确认</span>
+                    </div>
+                    <vue-esign ref="esign" :width="800" :height="300" :isCrop="isCrop" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
+                </el-card>
+
             </div>
-            <el-button type="danger" @click="ExportSavePdf(htmlTitle,nowTime)">导出PDF</el-button>
+            <el-button type="danger" icon="el-icon-delete" round @click="handleReset">清空画板</el-button>
+            <el-button type="primary" round @click="ExportSavePdf(htmlTitle,nowTime)">导出PDF</el-button>
     </div>
 
 </template>
 
 <script>
     import vueQr from 'vue-qr'
+    import {fetchAccount2printById} from '@/api/expenseAccount'
+
+    const defaultAccount2Print = {
+        realname: '',
+        gender: '',
+        age: '',
+        username: '',
+        type: '',
+        department: '',
+        school: '',
+        serialNum: '',
+        expenseTypeId: '',
+        fHospitalName: '',
+        lhospitalName: '',
+        room: '',
+        registTime: '',
+        registFee: '',
+        invoiceTime: '',
+        invoiceFee: '',
+        disease:'',
+        total: '',
+        rate: '',
+        reviewerRealname: '',
+        reviewerAgreeTime: ''
+    };
+
     export default {
         components: {
             vueQr
         },
+        created() {
+            if (this.$route.params.id != null) {
+                this.getAccount2PrintById(this.$route.params.id)
+            }
+        },
         data() {
             return {
                 downloadData: {
-                    info:"111",
-                    url: 'https://www.baidu.com',  //需要转化成二维码的网址
+                    //以下是二维码
+                    info:Object.assign({}, defaultAccount2Print),
+                    url: '192.168.3.10:8080/user/submit/print',  //需要转化成二维码的网址
+                    //以下是画板
                 },
+                lineWidth: 6,
+                lineColor: '#000000',
+                bgColor: '',
+                resultImg: '',
+                isCrop: false,
+                account2Print: Object.assign({}, defaultAccount2Print),
                 htmlTitle: "PDF名称",
                 nowTime: "",
             }
             //data里面的东西
 
-        }//data右括号
+        },//data右括号
+        methods: {
+            handleReset () {
+                this.$refs.esign.reset()
+            },
+            handleGenerate () {
+                this.$refs.esign.generate().then(res => {
+                    this.resultImg = res
+                }).catch(err => {
+                    alert(err) // 画布没有签字时会执行这里 'Not Signned'
+                })
+            },
+            getAccount2PrintById(id)
+            {
+                fetchAccount2printById(id).then(response=>{
+                    this.account2Print=response.data
+                    console.info(this.account2Print)
+                })
+            },
+            renderTime(date) {//转换日期格式
+                var dateee = new Date(date).toJSON();
+                return new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+            },
+        }
     }
 </script>

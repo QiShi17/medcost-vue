@@ -23,7 +23,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```npm install --save qrcodejs2```
 
 ###将页面转化为图片的插件
-```nnpm install --save html2canvas```
+```npm install --save html2canvas```
 
 ###下载图片pdf插件
 ```npm install jspdf --save```
+
+###签字(画板)插件
+```npm install vue-esign --save```
+###```在util的request.js中修改localhost,否则无法远端访问```
