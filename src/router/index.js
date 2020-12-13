@@ -141,6 +141,29 @@ export const asyncRoutes = [
         }
       },
     ]
+  },
+  {
+    path: adminPath+'/statistic',
+    component: Layout,
+    redirect: adminPath+'/statistic/reviewResult',
+    name: 'adminStatistic',
+    alwaysShow:true,
+    meta: {
+      title: '数据统计',
+      icon: 'ums-admin',
+      roles: ['ADMIN'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'reviewResult',
+        component: () => import('@/views/admin/statistic/reviewResult/reviewResultStatistic'),
+        name: 'adminReviewResultStatistic',
+        meta: {
+          title: '审核结果统计',
+          icon: 'ums-admin'
+        }
+      },
+    ]
   }
 ]
 
