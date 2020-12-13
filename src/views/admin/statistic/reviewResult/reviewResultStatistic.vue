@@ -1,30 +1,8 @@
 <template>
   <div class="app-container">
-    <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-      </div>
-      <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px" @submit.native.prevent>
-          <el-form-item label="输入搜索：">
-            <el-input v-model="listQuery.keyword" class="input-width" @keyup.enter.native="handleSearchList()" placeholder="帐号/姓名" clearable></el-input>
-          </el-form-item>
-          <el-button
-              style="margin-left: 50px"
-              type="primary"
-              @click="handleSearchList()"
-              size="small">
-            查询搜索
-          </el-button>
-        </el-form>
-
-      </div>
-    </el-card>
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="userTable"
@@ -80,9 +58,7 @@ export default {
       listQuery: Object.assign({}, defaultListQuery),
       list: null,
       total: null,
-      listLoading: false,
-      username: "",
-      realname: ""
+      listLoading: false
     }
   },
   created() {
@@ -97,7 +73,6 @@ export default {
         this.total = response.data.total;
       })
     },
-
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
       this.listQuery.pageSize = val;
