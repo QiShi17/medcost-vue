@@ -76,11 +76,11 @@ export default {
     handleSizeChange(val) {
       this.listQuery.pageNum = 1;
       this.listQuery.pageSize = val;
-      this.getList();
+      this.FetchReviewResultStatisticList();
     },
     handleCurrentChange(val) {
       this.listQuery.pageNum = val;
-      this.getList();
+      this.FetchReviewResultStatisticList();
     }
   }
 }
