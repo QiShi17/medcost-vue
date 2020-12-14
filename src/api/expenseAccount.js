@@ -68,8 +68,7 @@ export function fetchMyMasterAccountList(params) {
 export function deliver(id) {
     return request({
         url: expenseAccountUrl + '/deliver/' + id,
-        method: 'post',
-        params: id
+        method: 'post'
     })
 }
 
@@ -110,6 +109,13 @@ export function revokeExpenseAccountById(expenseAccountId,data) {
 export function fetchAccount2printById(expenseAccountId) {
     return request({
         url: expenseAccountUrl + '/print/'+ expenseAccountId,
+        method: 'get',
+    })
+}
+
+export function fetchAccountResultStatistic() {
+    return request({
+        url: expenseAccountUrl + '/statistic',
         method: 'get',
     })
 }
