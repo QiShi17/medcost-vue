@@ -33,6 +33,8 @@ Vue.use(Router)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+const userPath='/user'
 export const constantRoutes = [
   {
     path: '/login',
@@ -41,7 +43,7 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    component: () => import('@/views/user/home/index'),
+    redirect: userPath+'/home',
     hidden: true
   }
 ]
@@ -163,11 +165,20 @@ export const asyncRoutes = [
           icon: 'ums-admin'
         }
       },
+      {
+        path: 'echarts',
+        component: () => import('@/views/admin/statistic/reviewResult/echarts'),
+        name: 'echarts',
+        meta: {
+          title: '图标显示统计结果',
+          icon: 'ums-admin'
+        }
+      },
     ]
   }
 ]
 
-const userPath='/user'
+
 
 export const userRoutes=[
   {

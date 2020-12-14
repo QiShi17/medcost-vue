@@ -30,4 +30,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ###签字(画板)插件
 ```npm install vue-esign --save```
+###Echarts插件
+```npm install echarts --save```
+
+```npm install echarts vue-echarts```
 ###```在util的request.js中修改localhost,否则无法远端访问```

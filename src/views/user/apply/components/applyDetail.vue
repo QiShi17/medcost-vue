@@ -204,8 +204,9 @@
             this.getAllHospital()
             // }
             //如果时编辑状态，需要通过path传递expenseAccountId，查询对应的epenseAccount信息
-            if (this.$route.query.expense_account_id != null) {
-                this.getCurExpenseAccount(this.$route.query.expense_account_id)
+            if (this.$route.params.expense_account_id != null) {
+                console.info("获取到了")
+                this.getCurExpenseAccount(this.$route.params.expense_account_id)
             }
             this.getRate()
         },
@@ -298,10 +299,6 @@
                     this.user = response.data
                     this.expenseAccount.username = response.data.username
                     this.user.gender = response.data.gender.toString()
-                    this.$message({
-                        message: '获取成功！',
-                        type: 'success'
-                    });
                 })
             },
             getAllHospital() {
@@ -339,6 +336,7 @@
                                         message: '提交成功！',
                                         type: 'success'
                                     });
+                                    this.$router.push({name:"submitInReviewAccountSubmit"});
                                 })
                             }
                         )
@@ -367,6 +365,7 @@
                         message: '提交成功！',
                         type: 'success'
                     });
+                    this.$router.push({path: '/user/submit/draft_account'})
                 })
             }
         }
