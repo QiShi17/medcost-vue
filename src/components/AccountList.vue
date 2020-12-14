@@ -3,7 +3,7 @@
         <el-card class="operate-container" shadow="never">
             <i class="el-icon-tickets"></i>
             <span>数据列表</span>
-            <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
+<!--            <el-button size="mini" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>-->
         </el-card>
         <div class="table-container">
             <el-table ref="userTable"
@@ -34,24 +34,24 @@
                 <el-table-column label="总金额" align="center">
                     <template slot-scope="scope">￥{{Number(scope.row.invoiceFee)+Number(scope.row.registFee)}}</template>
                 </el-table-column>
-                <el-table-column label="审核历史" align="center" label-width="300px">
-                    <template slot-scope="scope">
-                        <template v-for="item in scope.row.reviewHistoryList">
-                           {{item.createTime}}:审核人：{{item.reviewerName}} {{item.reviewerIdNum}}/审核意见：{{item.comment}}
-                        </template>
-                    </template>
-                </el-table-column>
+<!--                <el-table-column label="审核历史" align="center" label-width="300px">-->
+<!--                    <template slot-scope="scope">-->
+<!--                        <template v-for="item in scope.row.reviewHistoryList">-->
+<!--                           {{item.createTime}}:审核人：{{item.reviewerName}} {{item.reviewerIdNum}}/审核意见：{{item.comment}}-->
+<!--                        </template>-->
+<!--                    </template>-->
+<!--                </el-table-column>-->
 
                 <el-table-column label="提交时间" width="160" align="center">
                     <template slot-scope="scope">{{scope.row.createTime | formatDateTime}}</template>
                 </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                         <template  slot-scope="scope">
-                            <el-button size="mini"
-                                       type="text"
-                                       @click="showId(scope.$index, scope.row)">
-                                查看id
-                            </el-button>
+<!--                            <el-button size="mini"-->
+<!--                                       type="text"-->
+<!--                                       @click="showId(scope.$index, scope.row)">-->
+<!--                                查看id-->
+<!--                            </el-button>-->
                             <el-button v-if="curOperations.indexOf('查看详情')>=0"
                                        size="mini"
                                        type="text"
@@ -71,10 +71,16 @@
                                 编辑
                             </el-button>
                             <el-button v-if="curOperations.indexOf('提交')>=0"
+                                               size="mini"
+                                               type="text"
+                                               @click="handleSubmit(scope.$index, scope.row)">
+                            提交
+                        </el-button>
+                            <el-button v-if="curOperations.indexOf('提交草稿')>=0"
                                        size="mini"
                                        type="text"
-                                       @click="handleSubmit(scope.$index, scope.row)">
-                                提交
+                                       @click="handleSubmitDraft(scope.$index, scope.row)">
+                                提交草稿
                             </el-button>
                             <el-button v-if="curOperations.indexOf('撤销')>=0"
                                        size="mini"
@@ -260,6 +266,11 @@
             },
             //编辑
             handleUpdate(index, row){
+                if(row.name==='学生报销') this.$router.push({name:"stu",params:{expense_account_id:row.id}});
+                if(row.name==='在职员工报销') this.$router.push({name:"onduty",params:{expense_account_id:row.id}});
+                if(row.name==='退休人员报销') this.$router.push({name:"off",params:{expense_account_id:row.id}});
+                if(row.name==='离休人员报销') this.$router.push({name:"retire",params:{expense_account_id:row.id}});
+                if(row.name==='其他报销') this.$router.push({name:"other",params:{expense_account_id:row.id}});
 
             },
             //查看详情

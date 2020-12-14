@@ -33,6 +33,8 @@ Vue.use(Router)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+const userPath='/user'
 export const constantRoutes = [
   {
     path: '/login',
@@ -41,7 +43,7 @@ export const constantRoutes = [
   },
   {
     path: '/',
-    component: () => import('@/views/user/home/index'),
+    redirect: userPath+'/home',
     hidden: true
   }
 ]
@@ -176,7 +178,7 @@ export const asyncRoutes = [
   }
 ]
 
-const userPath='/user'
+
 
 export const userRoutes=[
   {
