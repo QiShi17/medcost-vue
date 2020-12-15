@@ -79,12 +79,12 @@
                     </el-row>
                 </el-form>
             </el-card>
-            <div v-for="item in expenseAccountDetail.reviewRecordList">
+<div v-if="this.expenseAccountStatus!==2">
+            <div  v-for="item in expenseAccountDetail.reviewRecordList">
             <el-card class="box-card" style="margin-top: 20px">
                 <div slot="header" class="clearfix">
                     <span>审核历史</span>
                 </div>
-
                     <div>
                         <el-form :model="expenseAccountDetail" label-width="100px"  size="mini">
                             <el-col :span=8>
@@ -116,12 +116,13 @@
                     </div>
             </el-card>
             </div>
+</div>
         </div>
     </div>
 </template>
 
 <script>
-    import {getExpenseAccountDetailById} from'@/api/expenseAccount'
+    import {getExpenseAccountDetailById,getInReviewExpenseAccountDetailById} from'@/api/expenseAccount'
     const defaultExpenseAccountDetail = {
         status: '',
         serialNum: '',
@@ -135,9 +136,9 @@
         major: '',
         fhospitalName: '',
         referralImg: '',
+        deadline: '',
         lhospitalName: '',
         room: '',
-        deadline: '',
         registTime: '',
         registFee: '',
         registImg: '',
@@ -146,6 +147,7 @@
         invoiceImg: '',
         invoiceTime: '',
         invoiceFee: '',
+        preceptionImg:'',
         reviewRecordList:
         [
             {
@@ -168,20 +170,29 @@
         created() {
             if (this.$route.params.id != null) {
                 this.getExpenseAccountDetail(this.$route.params.id)
+            this.expenseAccountStatus=this.$route.params.status    //该单据的状态，根据状态来展示相关页面
             }
         },
         data() {
             return {
                 expenseAccountDetail: Object.assign({}, defaultExpenseAccountDetail),
-                test:'000'
+                expenseAccountStatus:'',
             };
         },
         methods: {
             getExpenseAccountDetail(id) {
-                getExpenseAccountDetailById(id).then(response => {
-                    this.expenseAccountDetail = response.data
-                    console.info(this.expenseAccountDetail)
-                })
+                if(this.$route.params.status!==2)
+                {
+                    getExpenseAccountDetailById(id).then(response => {
+                        this.expenseAccountDetail = response.data
+                    })
+                }
+                else
+                {
+                    getInReviewExpenseAccountDetailById(id).then(response=>{
+                        this.expenseAccountDetail = response.data
+                    })
+                }
             },
             //转换日期格式
             renderTime(date) {

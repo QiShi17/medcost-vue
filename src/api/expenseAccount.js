@@ -80,6 +80,14 @@ export function getExpenseAccountDetailById(id) {
     })
 }
 
+
+export function getInReviewExpenseAccountDetailById(id) {
+    return request({
+        url: expenseAccountUrl + '/in_review_detail/' + id,
+        method: 'get',
+    })
+}
+
 //修改一个单据的状态，并改变reviewerexpenseaccountrelation中的审核人信息
 export function agreeExpenseAccountById(expenseAccountId,data) {
     return request({

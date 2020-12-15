@@ -6,70 +6,127 @@
         font-size: 18px;
     }
     #chart_example{
-        width: 50%;
-        height: 500px;
-        border: 1px solid red;
+        width: 100%;
+        height: 800px;
+        border: 1px solid rgb(12, 0, 7);
         margin: 0 auto;
     }
 </style>
+
 <template>
     <div>
         <h2>vue中插入Echarts示例</h2>
-        <div id="chart_example">
-
-        </div>
+<!--        <el-button type="primary" round @click="draw1">画图</el-button>-->
+        <div id="chart_example"></div>
     </div>
+
 </template>
 
 <script>
-    import echarts from 'echarts'
+    import {fetchAccountResultStatistic} from'@/api/expenseAccount'
+    var echarts = require('echarts');
+    const defaultAccountResultStatistic = {
+        departmentAndSchoolList:[],
+        departmentAndSchoolNumList:[],
+
+    };//缺少一个发票图片
     export default {
+
         data() {
-            return {}
+            return {
+                accountResultStatistic: Object.assign({}, defaultAccountResultStatistic),
+            }
         },
         mounted() {
-            let this_ = this;
-            let myChart = echarts.init(document.getElementById('chart_example'));
-            let option = {
-                color: ['#f44'],
-                tooltip : {
-                    trigger: 'axis',
-                    axisPointer : {
-                        type : 'shadow'
-                    }
-                },
-                xAxis : [
-                    {
-                        type : 'category',
-                        data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月',],
-                        axisTick: {
-                            alignWithLabel: true
-                        }
-                    }
-                ],
-                yAxis : [
-                    {
-                        type : 'value'
-                    }
-                ],
-                series : [
-                    {
-                        name:'每月花费',
-                        type:'bar',
-                        barWidth: '60%',
-                        data:[995,666,444,858,654,236,645,546,846,225,547,356]
-                    }
-                ]
-            };
-            myChart.setOption(option);
 
-            //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
-            window.addEventListener('resize',function() {myChart.resize()});
+
         },
-        methods: {},
+        methods: {
+            // draw1() {
+            //     fetchAccountResultStatistic().then(response=>{
+            //         //this.accountResultStatistic.departmentAndSchoolList=response.data.accountResultStatistic.departmentAndSchoolList
+            //         //this.accountResultStatistic.departmentAndSchoolNumList=response.data.accountResultStatistic.departmentAndSchoolNumList
+            //         this.accountResultStatistic=response.data
+            //         console.info(this.accountResultStatistic)
+            //     })
+            // }
+        },
         watch: {},
         created() {
+            fetchAccountResultStatistic().then(response=>{
+                //this.accountResultStatistic.departmentAndSchoolList=response.data.accountResultStatistic.departmentAndSchoolList
+                //this.accountResultStatistic.departmentAndSchoolNumList=response.data.accountResultStatistic.departmentAndSchoolNumList
+                this.accountResultStatistic=response.data
+                alert(this.accountResultStatistic.departmentAndSchoolList)
+                console.info(this.accountResultStatistic)
 
+                let this_ = this;
+                let myChart = echarts.init(document.getElementById('chart_example'));
+
+                let option = {
+                    color: ['#ff7900'],
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer : {
+                            type : 'shadow'
+                        }
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : this.accountResultStatistic.departmentAndSchoolList,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'每月花费',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:this.accountResultStatistic.departmentAndSchoolNumList
+                        },
+                        {
+                            name:'每月花费',
+                            type:'bar',
+                            barWidth: '40%',
+                            data:[995,666,444,858,654,236,645,546,846,225,547,356],
+                            color: ['#ff9800'],
+                        },
+                    ],
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {
+                                show: true,                         //是否显示该工具。
+                                type:"png",                         //保存的图片格式。支持 'png' 和 'jpeg'。
+                                name:"pic1",                        //保存的文件名称，默认使用 title.text 作为名称
+                                backgroundColor:"#ffffff",        //保存的图片背景色，默认使用 backgroundColor，如果backgroundColor不存在的话会取白色
+                                title:"保存为图片",
+                                pixelRatio:1
+                            }
+                        },
+                        iconStyle:{
+                            color:'#fff',
+                            normal:{
+                                color:'#fff',//背景颜色
+                                borderColor: 'red'//边框颜色
+
+                            }
+                        }
+                    },
+                };
+
+                myChart.setOption(option);
+                //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
+                window.addEventListener('resize',function() {myChart.resize()});
+
+    })
         }
     }
 </script>

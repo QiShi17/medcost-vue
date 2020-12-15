@@ -22,8 +22,9 @@ import './permission' // permission control
 import Router from 'vue-router'
 import htmlToPdf from './utils/html2pdf'
 import vueEsign from 'vue-esign'
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+Vue.component('chart', ECharts)
 Vue.use(vueEsign)
 Vue.use(htmlToPdf)
 Vue.use(Element)

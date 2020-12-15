@@ -275,7 +275,7 @@
             },
             //查看详情
             handleShowDetails(index, row){
-                this.$router.push({name:"expenseAccountDetail",params:{id:row.id}});
+                this.$router.push({name:"expenseAccountDetail",params:{id:row.id,status:row.status}});
             },
             //收单
             handleDeliver(index, row){
