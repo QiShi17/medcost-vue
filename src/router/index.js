@@ -170,7 +170,16 @@ export const asyncRoutes = [
         component: () => import('@/views/admin/statistic/reviewResult/echarts'),
         name: 'echarts',
         meta: {
-          title: '图标显示统计结果',
+          title: '各部门人数',
+          icon: 'ums-admin'
+        }
+      },
+      {
+        path: 'totalFeeEcharts',
+        component: () => import('@/views/admin/statistic/reviewResult/totalFeeEcharts'),
+        name: 'totalFeeEcharts',
+        meta: {
+          title: '各部门总报销额',
           icon: 'ums-admin'
         }
       },

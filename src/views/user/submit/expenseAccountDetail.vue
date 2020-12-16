@@ -42,9 +42,35 @@
                             <el-tag>{{this.expenseAccountDetail.username}}</el-tag>
                         </el-form-item>
                     </el-col>
+                        <el-col :span=8>
+                            <el-form-item label="年龄" >
+                                <el-tag>{{this.expenseAccountDetail.age}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span=8>
+                            <el-form-item label="性别" >
+                                <el-tag v-if="this.expenseAccountDetail.gender===0">男</el-tag>
+                                <el-tag v-if="this.expenseAccountDetail.gender===1">女</el-tag>
+                            </el-form-item>
+                        </el-col>
+                    <el-col :span=8 v-if="this.expenseAccountDetail.school!==''">
+                        <el-form-item label="学院" >
+                            <el-tag>{{this.expenseAccountDetail.school}}</el-tag>
+                        </el-form-item>
+                    </el-col>
+                        <el-col :span=8 v-if="this.expenseAccountDetail.school!==''">
+                            <el-form-item label="专业" >
+                                <el-tag>{{this.expenseAccountDetail.major}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                    <el-col :span=8 v-if="this.expenseAccountDetail.department!==''">
+                        <el-form-item label="部门" >
+                            <el-tag>{{this.expenseAccountDetail.department}}</el-tag>
+                        </el-form-item>
+                    </el-col>
                     </el-row>
 
-                    <el-row>
+                    <el-row v-if="this.expenseAccountDetail.referralImg!==''">
                         <el-col :span=8>
                             <el-form-item label="转诊单照片" >
                                 <el-image :src="this.expenseAccountDetail.referralImg"></el-image>
@@ -53,9 +79,22 @@
                     </el-row>
 
                     <el-row>
-                        <el-col :span=8>
+                        <el-col :span=8 v-if="this.expenseAccountDetail.referralImg!==''">
+                            <el-form-item label="转诊时间" >
+                                <el-tag>{{renderTime(this.expenseAccountDetail.deadline)}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                        <el-col  :span=8 v-if="this.expenseAccountDetail.referralImg!==''">
                             <el-form-item label="转诊前医院" >
                                 <el-tag>{{this.expenseAccountDetail.lhospitalName}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span=8>
+                            <el-form-item label="就诊医院" >
+                                <el-tag>{{this.expenseAccountDetail.fhospitalName}}</el-tag>
                             </el-form-item>
                         </el-col>
                         <el-col :span=8>
@@ -63,20 +102,61 @@
                                 <el-tag>{{this.expenseAccountDetail.room}}</el-tag>
                             </el-form-item>
                         </el-col>
+                    </el-row>
+                    <el-row>
                         <el-col :span=8>
-                            <el-form-item label="报销日期" >
-                                <el-tag>{{renderTime(this.expenseAccountDetail.deadline)}}</el-tag>
+                            <el-form-item label="处方照片" >
+                                <el-image :src="this.expenseAccountDetail.prescriptionImg"></el-image>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span=8>
+                            <el-form-item label="挂号单照片" >
+                                <el-image :src="this.expenseAccountDetail.registImg"></el-image>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span=8>
+                            <el-form-item label="挂号时间" >
+                                <el-tag>{{renderTime(this.expenseAccountDetail.registTime)}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span=8>
+                            <el-form-item label="挂号费用" >
+                                <el-tag>{{this.expenseAccountDetail.registFee}}</el-tag>
                             </el-form-item>
                         </el-col>
                     </el-row>
 
                     <el-row>
                         <el-col :span=8>
-                            <el-form-item label="挂号单照片" >
-                                <el-image :src="this.expenseAccountDetail.prescriptionImg"></el-image>
+                            <el-form-item label="发票照片" >
+                                <el-image :src="this.expenseAccountDetail.invoiceImg"></el-image>
                             </el-form-item>
                         </el-col>
                     </el-row>
+                    <el-row>
+                        <el-col :span=8>
+                            <el-form-item label="发票时间" >
+                                <el-tag>{{renderTime(this.expenseAccountDetail.invoiceTime)}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span=8>
+                            <el-form-item label="发票费用" >
+                                <el-tag>{{this.expenseAccountDetail.invoiceFee}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span=8>
+                            <el-form-item label="总额" >
+                                <el-tag>{{this.expenseAccountDetail.invoiceFee+this.expenseAccountDetail.registFee}}</el-tag>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
                 </el-form>
             </el-card>
 <div v-if="this.expenseAccountStatus!==2">
@@ -85,14 +165,15 @@
                 <div slot="header" class="clearfix">
                     <span>审核历史</span>
                 </div>
-                    <div>
-                        <el-form :model="expenseAccountDetail" label-width="100px"  size="mini">
-                            <el-col :span=8>
-                                <el-form-item label="审核通过与否">
-                                    <el-tag v-if="item.status===0">审核未通过</el-tag>
-                                    <el-tag v-if="item.status===1">审核通过</el-tag>
-                                </el-form-item>
-                            </el-col>
+
+                <div>
+                    <el-form :model="expenseAccountDetail" label-width="100px"  size="mini">
+                        <el-col :span=8>
+                            <el-form-item label="审核通过与否">
+                                <el-tag v-if="item.status===0">审核未通过</el-tag>
+                                <el-tag v-if="item.status===1">审核通过</el-tag>
+                            </el-form-item>
+                        </el-col>
 
                           <div v-if="item.status===0">   <!--审核未通过才显示修改意见-->
                                 <el-col :span=8>
@@ -104,14 +185,16 @@
 
                             <el-col :span=8>
                                 <el-form-item label="审核时间" >
-                                    <el-tag >{{item.creatTime}}</el-tag>
+                                    <el-tag >{{renderTime(item.updateTime)}}</el-tag>
                                 </el-form-item>
                             </el-col>
+
                             <el-col :span=8>
                                 <el-form-item label="审核人" >
                                     <el-tag >{{item.reviewerRealname}}({{item.reviewerIdNum}})</el-tag>
                                 </el-form-item>
                             </el-col>
+
                         </el-form>
                     </div>
             </el-card>
@@ -134,6 +217,7 @@
         type: '',
         department: '',
         major: '',
+        school:'',
         fhospitalName: '',
         referralImg: '',
         deadline: '',
@@ -151,7 +235,7 @@
         reviewRecordList:
         [
             {
-                creatTime: '',
+                updateTime: '',
                 reviewerRealname: '',
                 reviewerIdNum: '',
                 status: '',
@@ -185,12 +269,14 @@
                 {
                     getExpenseAccountDetailById(id).then(response => {
                         this.expenseAccountDetail = response.data
+                        console.info(this.expenseAccountDetail)
                     })
                 }
                 else
                 {
                     getInReviewExpenseAccountDetailById(id).then(response=>{
                         this.expenseAccountDetail = response.data
+                        console.info(this.expenseAccountDetail)
                     })
                 }
             },

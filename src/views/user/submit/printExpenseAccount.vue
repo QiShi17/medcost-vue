@@ -3,39 +3,84 @@
             <div id="pdfCentent">
 <!-- 在此处编写需要下载的东西              -->
                 <div>
-                    <el-card >
+                    <el-card>
                         <div slot="header" class="clearfix">
                             <span>打印单据</span>
                         </div>
-                        <el-form :model="expenseAccountDetail" label-width="100px"  size="mini">
+                        <el-row>
+                            <vue-qr :text="downloadData.url"
+                                    :margin="10" colorDark="#000" colorLight="#fff"
+                                    :dotScale="1"
+                                    :logoSrc="downloadData.icon"
+                                    :logoScale="0.2"
+                                    :size="200">
+                            </vue-qr>
+                        </el-row>
+                        <el-form :model="this.account2Print" label-width="100px"  size="mini">
                                 <el-col :span=8>
                                     <el-form-item label="流水号" >
-                                        <el-tag>{{this.account2Print.serialNum}}</el-tag>
+                                        <el-tag type="info">{{this.account2Print.serialNum}}</el-tag>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span=8>
                                     <el-form-item label="报销类型" >
-                                        <el-tag v-if="account2Print.expenseTypeId===1">学生报销</el-tag>
-                                        <el-tag v-if="account2Print.expenseTypeId===2">在职职工报销</el-tag>
-                                        <el-tag v-if="account2Print.expenseTypeId===3">退休职工报销</el-tag>
-                                        <el-tag v-if="account2Print.expenseTypeId===4">离休职工报销</el-tag>
-                                        <el-tag v-if="account2Print.expenseTypeId===5">其他报销类型</el-tag>
+                                        <el-tag type="info" v-if="account2Print.expenseTypeId===1">学生报销</el-tag>
+                                        <el-tag type="info" v-if="account2Print.expenseTypeId===2">在职职工报销</el-tag>
+                                        <el-tag type="info" v-if="account2Print.expenseTypeId===3">退休职工报销</el-tag>
+                                        <el-tag type="info" v-if="account2Print.expenseTypeId===4">离休职工报销</el-tag>
+                                        <el-tag type="info" v-if="account2Print.expenseTypeId===5">其他报销类型</el-tag>
                                     </el-form-item>
                                 </el-col>
+                            <el-col :span=8>
+                                <el-form-item label="用户类型" >
+                                    <el-tag type="info" v-if="this.account2Print.type===1">学生</el-tag>
+                                    <el-tag type="info" v-if="this.account2Print.type===0">职工</el-tag>
+                                </el-form-item>
+                            </el-col>
+                            <el-row>
                                 <el-col :span=8>
                                     <el-form-item label="姓名" >
-                                        <el-tag>{{this.account2Print.realname}}</el-tag>
+                                        <el-tag type="success">{{this.account2Print.realname}}</el-tag>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span=8>
                                     <el-form-item label="用户名" >
-                                        <el-tag>{{this.account2Print.username}}</el-tag>
+                                        <el-tag type="success">{{this.account2Print.username}}</el-tag>
                                     </el-form-item>
                                 </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="性别" >
+                                        <el-tag type="success" v-if="account2Print.gender===0 ">男</el-tag>
+                                        <el-tag type="success" v-if="account2Print.gender===1">女</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="年龄" >
+                                        <el-tag type="success">{{this.account2Print.age}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8 v-if="this.account2Print.type===0">
+                                    <el-form-item label="部门" >
+                                        <el-tag type="success">{{this.account2Print.department}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8 v-if="this.account2Print.type===1">
+                                    <el-form-item label="学院" >
+                                        <el-tag type="success">{{this.account2Print.school}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
 
+
+                            <el-row>
                                 <el-col :span=8>
                                     <el-form-item label="转诊前医院" >
                                         <el-tag>{{this.account2Print.lhospitalName}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="就诊医院" >
+                                        <el-tag>{{this.account2Print.fhospitalName}}</el-tag>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span=8>
@@ -43,16 +88,60 @@
                                         <el-tag>{{this.account2Print.room}}</el-tag>
                                     </el-form-item>
                                 </el-col>
+                            </el-row>
 
+                            <el-row>
+                                <el-col :span=8>
+                                    <el-form-item label="挂号时间" >
+                                        <el-tag>{{renderTime(this.account2Print.registTime)}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="挂号费用" >
+                                        <el-tag>{{this.account2Print.registFee}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
 
+                            <el-row>
+                                <el-col :span=8>
+                                    <el-form-item label="发票时间" >
+                                        <el-tag>{{renderTime(this.account2Print.invoiceTime)}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="发票费用" >
+                                        <el-tag>{{this.account2Print.invoiceFee}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+
+                            <el-row>
+                                <el-col :span=8>
+                                    <el-form-item label="审核人" >
+                                        <el-tag type="danger">{{this.account2Print.reviewerRealName}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="审核时间" >
+                                        <el-tag type="danger">{{renderTime(this.account2Print.reviewerAgreeTime)}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
+
+                            <el-row>
+                                <el-col :span=8>
+                                    <el-form-item label="总报销额" >
+                                        <el-tag type="danger">{{this.account2Print.total}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span=8>
+                                    <el-form-item label="报销比例" >
+                                        <el-tag type="danger">{{this.account2Print.rate}}</el-tag>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
                         </el-form>
-                        <vue-qr :text="downloadData.url"
-                                :margin="10" colorDark="#000" colorLight="#fff"
-                                :dotScale="1"
-                                :logoSrc="downloadData.icon"
-                                :logoScale="0.2"
-                                :size="200">
-                        </vue-qr>
                     </el-card>
                 </div>
 
@@ -63,8 +152,10 @@
                     <vue-esign ref="esign" :width="800" :height="300" :isCrop="isCrop" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
                 </el-card>
 
+
+<!--                在此处编写要下载的东西-->
             </div>
-            <el-button type="danger" icon="el-icon-delete" round @click="handleReset">清空画板</el-button>
+            <el-button type="danger" icon="el-icon-delete" round @click="handleReset">清空签字板</el-button>
             <el-button type="primary" round @click="ExportSavePdf(htmlTitle,nowTime)">导出PDF</el-button>
     </div>
 
@@ -94,7 +185,7 @@
         disease:'',
         total: '',
         rate: '',
-        reviewerRealname: '',
+        reviewerRealName: '',
         reviewerAgreeTime: ''
     };
 

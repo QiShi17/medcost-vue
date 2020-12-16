@@ -16,7 +16,7 @@
 <template>
     <div>
         <h2>vue中插入Echarts示例</h2>
-<!--        <el-button type="primary" round @click="draw1">画图</el-button>-->
+        <!--        <el-button type="primary" round @click="draw1">画图</el-button>-->
         <div id="chart_example"></div>
     </div>
 
@@ -86,10 +86,11 @@
                     ],
                     series : [
                         {
-                            name:'部门/学院总人数',
+                            name:'部门/学院总报销额',
                             type:'bar',
-                            barWidth: '60%',
-                            data:this.accountResultStatistic.departmentAndSchoolNumList
+                            barWidth: '40%',
+                            data:[13000,2000,5000,16000,4800,5600,3200,4800,1200,8500,7600,9600],
+                            color: ['#ff9800'],
                         },
                     ],
                     toolbox: {
@@ -118,7 +119,7 @@
                 //建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
                 window.addEventListener('resize',function() {myChart.resize()});
 
-    })
+            })
         }
     }
 </script>
