@@ -2,20 +2,13 @@
     <div>
             <div id="pdfCentent">
 <!-- 在此处编写需要下载的东西              -->
-                <div>
                     <el-card>
                         <div slot="header" class="clearfix">
                             <span>打印单据</span>
                         </div>
-                        <el-row>
-                            <vue-qr :text="downloadData.url"
-                                    :margin="10" colorDark="#000" colorLight="#fff"
-                                    :dotScale="1"
-                                    :logoSrc="downloadData.icon"
-                                    :logoScale="0.2"
-                                    :size="200">
-                            </vue-qr>
-                        </el-row>
+
+
+
                         <el-form :model="this.account2Print" label-width="100px"  size="mini">
                                 <el-col :span=8>
                                     <el-form-item label="流水号" >
@@ -140,19 +133,22 @@
                                         <el-tag type="danger">{{this.account2Print.rate}}</el-tag>
                                     </el-form-item>
                                 </el-col>
+                                <vue-qr :text="downloadData.url"
+                                        :margin="10" colorDark="#000" colorLight="#fff"
+                                        :dotScale="1"
+                                        :logoSrc="downloadData.icon"
+                                        :logoScale="0.2"
+                                        :size="66">
+                                </vue-qr>
                             </el-row>
                         </el-form>
                     </el-card>
-                </div>
-
                 <el-card>
                     <div slot="header" class="clearfix">
                         <span>报销人签字确认</span>
                     </div>
-                    <vue-esign ref="esign" :width="800" :height="300" :isCrop="isCrop" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
+                    <vue-esign ref="esign" :width="800" :height="150" :isCrop="isCrop" :lineWidth="lineWidth" :lineColor="lineColor" :bgColor.sync="bgColor" />
                 </el-card>
-
-
 <!--                在此处编写要下载的东西-->
             </div>
             <el-button type="danger" icon="el-icon-delete" round @click="handleReset">清空签字板</el-button>
@@ -203,7 +199,7 @@
                 downloadData: {
                     //以下是二维码
                     info:Object.assign({}, defaultAccount2Print),
-                    url: '192.168.3.10:8080/user/submit/print',  //需要转化成二维码的网址
+                    url: '47.111.130.83:8080/user/submit/print',  //需要转化成二维码的网址
                     //以下是画板
                 },
                 lineWidth: 6,
