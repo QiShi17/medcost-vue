@@ -34,7 +34,7 @@
         data() {
             return {
                 listQuery: Object.assign({}, defaultListQuery),
-                myOperations: ["查看详情","编辑","提交"],
+                myOperations: ["查看详情","编辑"],
                 list: null,
                 total: null,
                 listLoading: false

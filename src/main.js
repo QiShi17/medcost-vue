@@ -29,7 +29,8 @@ Vue.use(vueEsign)
 Vue.use(htmlToPdf)
 Vue.use(Element)
 
-Vue.config.productionTip = false
+// Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 // Vue.prototype.$axios = axios
 
